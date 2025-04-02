@@ -77,7 +77,7 @@ resource "aws_security_group" "devops_sg" {
 resource "aws_instance" "free_tier_instance" {
   ami           = "ami-04b4f1a9cf54c11d0" # Ubuntu AMI ID
   instance_type = "t2.micro"              # Free tier eligible instance type
-  key_name      = "mykeypair1"
+  key_name      = "devops"
 
   # Attach Security Group by ID
   vpc_security_group_ids = [aws_security_group.devops_sg.id]
@@ -89,6 +89,7 @@ resource "aws_instance" "free_tier_instance" {
               sudo systemctl start docker
               sudo systemctl enable docker
               sudo usermod -aG docker ubuntu  # Allow the 'ubuntu' user to run Docker without sudo
+              newgrp docker
               EOF
 
   tags = {
