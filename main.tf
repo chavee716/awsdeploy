@@ -75,7 +75,7 @@ resource "aws_security_group" "devops_sg" {
 
 # Step 2: Create EC2 Instance with Security Group
 resource "aws_instance" "free_tier_instance" {
-  ami           = "ami-04b4f1a9cf54c11d0" # Ubuntu AMI ID
+  ami           = "ami-04f167a56786e4b09" # Ubuntu AMI ID
   instance_type = "t2.micro"              # Free tier eligible instance type
   key_name      = "devops"
 
