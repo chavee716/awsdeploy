@@ -69,7 +69,7 @@ terraform {
    }
  
    tags = {
-     Name = "My-security-group"
+     Name = "My-security-groupnew"
    }
  }
  
