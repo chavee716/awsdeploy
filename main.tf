@@ -44,21 +44,21 @@ resource "aws_security_group" "devops_sg" {
     from_port   = 5173
     to_port     = 5173
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Allow access to port 5000
+    cidr_blocks = ["0.0.0.0/0"] # Allow access to frontend port
   }
 
   ingress {
     from_port   = 3001
     to_port     = 3001
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"] # Allow access to backend port
   }
 
   ingress {
     from_port   = 27017
     to_port     = 27017
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Allow access to port 27017 (MongoDB)
+    cidr_blocks = ["0.0.0.0/0"] # Allow access to MongoDB port
   }
 
   egress {
@@ -75,7 +75,7 @@ resource "aws_security_group" "devops_sg" {
 
 # Step 2: Create EC2 Instance with Security Group
 resource "aws_instance" "free_tier_instance" {
-  ami           = "ami-0100e595e1cc1ff7f" # Ubuntu AMI ID
+  ami           = "ami-0100e595e1cc1ff7f" # Amazon Linux 2023 AMI
   instance_type = "t2.micro"              # Free tier eligible instance type
   key_name      = "devops"
 
@@ -84,16 +84,16 @@ resource "aws_instance" "free_tier_instance" {
 
   user_data = <<-EOF
               #!/bin/bash
-              sudo apt-get update -y
-              sudo apt-get install -y docker.io
+              sudo dnf update -y
+              sudo dnf install -y docker
               sudo systemctl start docker
               sudo systemctl enable docker
-              sudo usermod -aG docker ubuntu  # Allow the 'ubuntu' user to run Docker without sudo
+              sudo usermod -aG docker ec2-user
               newgrp docker
               EOF
 
   tags = {
-    Name = "FreeTierUbuntuInstance" # Tag for the instance
+    Name = "AmazonLinux2023Instance"
   }
 }
 
