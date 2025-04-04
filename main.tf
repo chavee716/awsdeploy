@@ -78,6 +78,10 @@ resource "aws_security_group" "devops_sg" {
   tags = {
     Name = "My-security-group"
   }
+  
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # Step 2: Create EC2 Instance with Security Group
