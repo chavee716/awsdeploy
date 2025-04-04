@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-2" # Specify the AWS region
+  region = "us-east-1" # Specify the AWS region
 }
 
 # Step 1: Create Security Group in Default VPC
@@ -53,6 +53,7 @@ resource "aws_security_group" "devops_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # Allow access to backend port
   }
+  
 
   ingress {
     from_port   = 27017
